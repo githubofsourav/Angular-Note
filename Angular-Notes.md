@@ -735,3 +735,145 @@ Eg:
         }
         ```
 ## Nested Loops
+Eg:
+* .html code:
+```html
+<ul *ngFor="let user of userDetails">
+    <li>{{user.name}}</li>
+    <li> Teams
+        <ul *ngFor="let team of user.teams">{{team}}</ul>
+    </li>
+</ul>
+```
+* typescript code:
+```typescript
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent {
+[x: string]: any;
+  title = 'blog';
+
+  // nested array
+  userDetails=[
+    {name: 'Virat', sr: 135, jersy: 18, teams: ['rcb','rr','dd']},
+    {name: 'Dhoni', sr: 147, jersy: 7, teams: ['csk','rps']},
+    {name: 'Gill', sr: 143, jersy: 77, teams: ['kkr','gt']},
+    {name: 'Rohit', sr: 153, jersy: 45, teams:['rr','mi']},
+    {name: 'Surya', sr: 168, jersy: 30, teams: ['kkr','mi']}
+  ]
+}
+```
+## Style Binding
+* Use class and style bindings to add and remove CSS class names from an element's ```class``` attribute and to set styles dynamically. <br>
+    Eg:
+    * html file code:
+    ```html
+    <!-- gets color from .ts file -->
+    <h1 [style.color]="color">Hello</h1>
+    ```
+    * typescript code:
+    ```typescript
+    import { Component } from '@angular/core';
+
+    @Component({
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.css']
+    })
+    export class AppComponent {
+    [x: string]: any;
+    title = 'blog';
+    // set any color name 
+    color = 'red';
+    }
+    ```
+
+    Eg: Apply on button click.
+    * html file code:
+    ```html
+    <h1 [style.color]="color" [style.backgroundColor]="bgColor">Hello</h1>
+
+    <button (click)="updateColor()">Update Color</button>
+    ```
+    * typescript file code:
+    ```typescript
+    import { Component } from '@angular/core';
+
+    @Component({
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.css']
+    })
+    export class AppComponent {
+    [x: string]: any;
+    title = 'blog';
+    color = 'red';
+    bgColor = 'yellow'
+
+    updateColor() {
+        this.color = 'purple';
+        this.bgColor = 'green';
+    }
+    }
+    ```
+## Header
+* Step 1: Create a component(say: nav-bar[header])
+    ``` 
+    > ng g c header
+    ```
+* Step 2: Add selector of above component in app.component.html
+    ```
+    <app-header></app-header>
+    ```
+* Step 3: In header component, inside .html file
+    ```html
+    <nav>
+        <img src="https://imagepng.org/wp-content/uploads/2018/08/twitter-icone-1.png" alt="logo" srcset="">
+        <ul>
+            <li><a href="">Login</a></li>
+            <li><a href="">Sign Up</a></li>
+            <li><a href="">Home</a></li>
+            <li><a href="">About</a></li>
+        </ul>
+    </nav>
+    ```
+* Step 4: In header component, inside .css file
+    ```css
+    nav img{
+    width: 70px;
+    }
+    nav {
+        background-color: blue;
+        padding: 10px;
+    }
+    ul {
+        float: right;
+        list-style-type: none;
+
+    }
+    ul li {
+        display: inline-block;
+        padding: 10px;
+    }
+    li a {
+        color: aliceblue;
+        text-decoration: none;
+        cursor: pointer;
+        padding: 10px;
+    }
+    ```
+* Step 5: Inside style.css file(Global style), to remove margin
+    ```css
+    body {
+    margin: 0%;
+    }
+    ```
+* We can add the < app-header></ app-header> tag inside whichever component .html file we like.
+* Output: ![Alt text](header-output.png)
+
+## Basic Form
