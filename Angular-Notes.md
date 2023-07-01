@@ -1814,8 +1814,141 @@ Let's understand Reactive Form with the help of an example. We'll create a login
         ```
 ## What we service? Why we need it?
 1. What is Service?
+    * Service is a broad category encompassing any value, function, or feature that an application needs. A service is typically a class with a narrow, well-defined purpose. It should do something specific and do it well.
+
+    * Angular distinguishes components from services to increase modularity and reusability.
 2. Why we need it?
+    * For modularity and reusability
+    * To avoid duplicacy of data
 3. Understand problem statement.
+    * Suppose we need to display list of users in various components.
+    * So, without copying the same data of users in every component, we should make a service that contains all the user data and use where necessary.
+
+## Make service and use in multiple files
+1. Make service
+    * Use command:
+        > ng g service services/user-data
+2. Add data in service
+    * Manually add some data in service (user-data)
+        ```typescript
+        // inside user-data.service.ts file
+        import { Injectable } from '@angular/core';
+
+        @Injectable({
+        providedIn: 'root'
+        })
+        export class UserDataService {
+
+        constructor() { }
+
+        users() {
+            return [
+            {name: 'Sourav', age: 23, email: 'sourav@test.com'},
+            {name: 'Sam', age: 25, email: 'sam@test.com'},
+            {name: 'Peter', age: 21, email: 'peter@test.com'}
+            ]
+        }
+        }
+        ```
+3. Make footer component
+    * Use command:
+        > ng g c footer
+    * Design component according to needs. <br>
+        Eg: <br>
+        ```css
+        // inside .css file of footer component
+        .footer{
+            position: absolute;
+            bottom: 0%;
+            background-color: skyblue;
+            width: 100%;
+            padding: 5px;
+            color: aliceblue;
+        }
+        ```
+    * .html file of footer component
+        ```html
+        <div class="footer">
+            <h1>Footer</h1>
+
+            <ul>
+                <li *ngFor="let user of users">{{user.email}}</li>
+            </ul>
+        </div>
+        ```
+4. Use service in app component
+    * Inside .ts file of app component
+    ```typescript
+    import { Component } from '@angular/core';
+    import { UserDataService } from './services/user-data.service'
+    @Component({
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.css']
+    })
+    export class AppComponent {
+        title = 'routing-blog';
+
+        users: any;
+
+        constructor(private userData: UserDataService) {
+            console.log('userData', userData.users());
+            this.users = userData.users();
+        }
+    }
+    ```
+
+5. Use service in footer component
+    * Inside .ts file of footer component
+    ```typescript
+    import { Component } from '@angular/core';
+    import { UserDataService } from '../services/user-data.service'
+
+    @Component({
+    selector: 'app-footer',
+    templateUrl: './footer.component.html',
+    styleUrls: ['./footer.component.css']
+    })
+    export class FooterComponent {
+
+        users: any;
+
+        constructor(private userData: UserDataService) {
+            this.users = userData.users();
+        }
+    }
+    ```
+## Get Data from API and display (Call API in Angular)
+1. What is API
+    * Application programming interface
+    * We cannot directly connect angular and database, we need to use API to get data from database in angular.
+    * API flow diagram: ![Alt text](api-flow-angular.png)
+        * Here, server can be using java, nodejs etc.
+
+2. Understand how API works
+3. Make service
+4. Call get API
+    * First of all, make sure to have API url(use postman).
+    * Inside app.module.ts, make sure to import HttpClientModule.
+        > import { HttpClientModule } from '@angular/common/http' 
+    * Inside service(eg: user-data.service.ts) file:
+        ```typescript
+        import { Injectable } from '@angular/core';
+        import { HttpClient } from '@angular/common/http'
+        @Injectable({
+        providedIn: 'root'
+        })
+        export class UsersDataService {
+
+            url = 'http://localhost:3030/student'
+            constructor(private http: HttpClient) { }
+
+            users() {
+                return this.http.get(this.url);
+            }
+        }
+        ```
+5. Display data using API
 
 
 
